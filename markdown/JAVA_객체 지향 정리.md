@@ -225,3 +225,262 @@ c2 info kind & number :S, 4card size w * h30 * 50
   - 높은 재사용성
   - 중복된 코드 제거
   - 프로그램의 구조화
+
+- 메서드 콜스텍
+
+  ```java
+  public class CallStackTest {
+      public static void main(String[] args) {
+          System.out.println("main start");
+          firstMethod();
+          System.out.println("main end");
+      }
+      static void firstMethod() {
+          System.out.println("first start");
+          secondMethod();
+          System.out.println("first end");
+      }
+      static void secondMethod(){
+          System.out.println("second start");
+          System.out.println("second end");
+      }
+  }
+  ```
+
+  ```java
+  main start
+  first start
+  second start
+  second end
+  first end
+  main end
+  ```
+
+- 메서드 내의 참조 변수
+
+  ```java
+  public class ReferenceParamEx {
+      public static void main(String[] args) {
+          Data d = new Data();
+          d.x = 10;
+          System.out.println(d.x);
+          pChange(d.x);
+          System.out.println(d.x);
+          System.out.println("reference change start");
+          rChange(d);
+          System.out.println(d.x);
+      }   
+  
+      static void pChange(int x){ //기본형 매개변수 int 등의 자료형 변수
+          // 기초변수는 메모리에 저장된다.
+          x = 1000;
+          System.out.println("pchange : "+ x);
+      }
+  
+      static void rChange(Data a){ //참조형 매개 변수 int[]의 경우도 참조형 변수이다.
+          // 참조형 매개 변수는 객체이다.
+          // 주소값이 저장 된다. 
+          a.x = 1000;
+          System.out.println("rchange : " + a.x);
+      }
+  }
+  class Data{ int x; }
+  ```
+
+  ```
+  10
+  pchange : 1000
+  10
+  reference change start
+  rchange : 1000
+  1000
+  ```
+
+  ```java
+  public class ReferenceParamEx3 {
+      public static void main(String[] args) {
+          int[] arr = new int[5];
+          for (int i=0; i<5; i++){
+              arr[i] = 6-i;
+          }
+  
+          printArr(arr);
+          sortArr(arr);
+          printArr(arr);
+          System.out.println("sum : "+sumArr(arr));
+          
+      }
+  
+      static void printArr(int[] a){
+          System.out.print("[ ");
+          for (int i : a){
+              System.out.print(i+ ", ");
+          }
+          System.out.println("]");
+      }
+  
+      static void sortArr(int[] a){
+          int tmp;
+          for (int i=0; i<a.length-1;i++){
+              for (int j=0; j<a.length-1-i;j++ ){
+                  if (a[j] > a[j+1]){
+                      tmp = a[j];
+                      a[j] = a[j+1];
+                      a[j+1] = tmp; 
+                  }
+              }
+          }
+      }
+  
+      static int sumArr(int[] a){
+          int sum = 0;
+          for (int i: a){
+              sum += i;
+          }
+          return sum;
+      }
+  }
+  ```
+
+- 재귀함수
+
+  ```java
+  public class FactorialTest {
+      public static void main (String[] args) {
+          int result = factorial(4);
+          System.out.println(result);
+      }
+  
+      static int factorial(int n) {
+          int result = n;
+          if (n==0){
+              return 1;
+          }
+          else{
+              result *= factorial(n-1);
+          }
+          return result;
+      }
+  }
+  ```
+
+  
+
+### 클래스 메서드와 인스턴스 메서드
+
+1. 클래스를 설계할 때, 멤버변수 중 모든 인스턴스에 공통으로 사용하는 것에 `static`을 붙인다.
+2. 클래스 변수(static 변수)는 인스턴스를 생성하지 않아도 된다.
+3. 클래스 메서드는 인스턴스 변수를 사용할 수 없다.
+4. 메서드 내에서 인스턴스 변수를 사용하지 않는다면, `static`을 붙이는 것을 고려한다.
+
+```java
+public class ReturnTest {
+    public static void main(String[] args){
+        ReturnTest sample = new ReturnTest();
+        int result = sample.add(1,3);
+        System.out.println(result);
+
+        int[] result2 = {0};
+        ReturnTest.add(1,4,result2);
+        System.out.println(result2[0]);    
+    }
+
+    int add(int a, int b){ // 인스턴스 method
+        return a+b;
+    }
+
+    static void add(int a, int b, int[] result){ // 클래스 method + 참조형 매개변수
+        result[0] = a+b;
+    }
+}
+
+```
+
+```java
+public class MyMathTest2 {
+    public static void main(String[] args){
+        // 클래스 메서드는 바로 사용가능.
+        System.out.println(MyMath2.add(2L, 4L));
+        System.out.println(MyMath2.subtract(2L, 4L));
+        System.out.println(MyMath2.multiply(2L, 4L));
+        System.out.println(MyMath2.divide(2L, 4L));
+
+        // 인스턴스를 생성해야 가능.
+        MyMath2 mm = new MyMath2();
+        mm.a = 2L;
+        mm.b = 4L;
+        System.out.println(mm.add());
+        System.out.println(mm.subtract());
+        System.out.println(mm.multiply());
+        System.out.println(mm.divide());
+    }
+}
+
+class MyMath2{
+    long a, b; // 인스턴스 변수
+    
+    // 인스턴스 메소드는 인스턴스 변수를 사용하기 때문에 매개변수가 필요없음
+    // 인스턴스를 생성했을 때에만 사용이 가능함.
+    long add(){return a+b;}
+    long subtract() {return a-b;}
+    long multiply() {return a*b;}
+    double divide() { return (double)a/(double)b;}
+
+    static long add(long a, long b) {return a+b;}
+    static long subtract(long a, long b) {return a-b;}
+    static long multiply(long a, long b) {return a*b;}
+    static double divide(double a, double b) {return a/b;}
+
+}
+```
+
+## 3. 오버로딩
+
+- 한 클래스 내에서 같은이름의 메서드를 여러 개 정의하는 것
+
+- 조건
+  1. 메서드 이름이 같아야 한다.
+  2. 매개변수의 개수 또는 타입이 달라야 한다.
+
+- 장점
+  - 같은 메서드 이름을 사용하기 때문에 같은 기능을 의미함을 알수 있음
+
+- 가변인자(`varargs`)와 오버로딩
+  - `Object... args`
+  - 가변인자는 항상 마지막 매개변수이어야 한다. - 컴파일 에러 발생.
+
+## 4. 생성자
+
+- 인스턴스가 생성될 때 호출되는 인스턴스 초기화 메서드 이다.
+
+1. 생성자의 이름은 클래스의 이름과 같아야 한다.
+2. 생성자는 리턴 값이 없다.
+
+```java
+class Card{
+    // 생성자는 void를 쓸필요 없다.
+    Card(){ // 매개 변수 없는 생성자
+        ...
+    }
+    // 오버로딩이 가능하다.
+    Card(String k, int num){ // 매개 변수 있는 생성자
+        ...
+    }
+}
+```
+
+
+
+- 연산자 `new`가 인스턴스를 생성하는것. 생성자가 인스턴스를 생성하는 것이 아님
+
+- `Card c = new Card();`
+  1. 연산자 `new`에 의해서 메모리(heap)에 Card 클래스의 인스턴스가 생성
+  2. 생성자 `Card()`가 호출되어 수행된다.
+  3. 연산자 `new`의 결과로, 생성된 Card인스턴스의 주소가 반환되어 참조 변수 c에 저장된다.
+
+### 기본 생성자
+
+- 컴파일을 실행 할 때, 소스파일의 클래스에서 생성자가 정의되지 않은 경우 컴파일러는 자동적으로 기본 생성자를 추가하여 컴파일 한다.
+
+### 매개변수가 있는 생성자
+
