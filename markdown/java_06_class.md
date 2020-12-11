@@ -484,3 +484,40 @@ class Card{
 
 ### 매개변수가 있는 생성자
 
+- 생성자도 메서드처럼 매개변수를 선언하여 호출 시 값을 넘겨받아서 인스턴스의 초기화작업에 사용가능
+
+CarTest.java
+
+```java
+class Car {
+    String color;
+    String gearType;
+    int door;
+
+    Car(){}
+    Car(String c, String gt, int d){
+        color = c;
+        gearType = gt;
+        door = d;
+    }
+}
+public class CarTest {
+    public static void main(String[] args){
+        Car c1 = new Car();
+        c1.color = "red";
+        c1.gearType = "auto";
+        c1.door = 4;
+        Car c2 = new Car("blue", "manual", 4);
+        System.out.println("c1.color : " + c1.color+", c1.gearType : "+c1.gearType+", c1.door : "+c1.door);
+        System.out.println("c2.color : " + c2.color+", c2.gearType : "+c2.gearType+", c2.door : "+c2.door);
+    }
+}
+/*
+c1.color : red, c1.gearType : auto, c1.door : 4
+c2.color : blue, c2.gearType : manual, c2.door : 4
+*/
+```
+
+### 생성자에서 다른생성자 호출하기 - `this()`, `this`
+
+- 
