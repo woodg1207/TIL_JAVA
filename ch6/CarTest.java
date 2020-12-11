@@ -2,8 +2,8 @@ class Car {
     String color;
     String gearType;
     int door;
-
-    Car(){}
+    Car(){} //생성자.
+    // 생성자에도 매개변수를 넣을수 있다.
     Car(String c, String gt, int d){
         color = c;
         gearType = gt;

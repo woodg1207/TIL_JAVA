@@ -520,4 +520,97 @@ c2.color : blue, c2.gearType : manual, c2.door : 4
 
 ### 생성자에서 다른생성자 호출하기 - `this()`, `this`
 
-- 
+- 생성자의 이름으로 클래스이름 대신 `this`를 사용한다.
+- 한 생성자에서 다른 생성자를 호출할 때는 반드시 첫 줄에서만 호출이 가능하다.
+
+```java
+class Car {
+    String color;
+    String gearType;
+    int door;
+
+    Car(){}
+    Car(String c, String gt, int d){
+        color = c;
+        gearType = gt;
+        door = d;
+    }
+    Car(String color){
+        door = 5; // 첫 줄
+        Car(Color, "Auto", 4); 
+        //error 1. 생성자의 두번째 줄에서 다른 생성자를 호출
+        //error 2. this(color, "Auto", 4);로 해야함.
+    }
+}
+```
+
+CarTest2.java
+
+```java
+public class CarTest2 {
+    public static void main(String[] args){
+        Car2 c1 = new Car2();
+        Car2 c2 = new Car2("blue");
+        System.out.println("c1.color : " + c1.color+", c1.gearType : "+c1.gearType+", c1.door : "+c1.door);
+        System.out.println("c2.color : " + c2.color+", c2.gearType : "+c2.gearType+", c2.door : "+c2.door);
+
+    }
+}
+class Car2 {
+    String color;
+    String gearType;
+    int door;
+    Car2(){
+        this("White", "auto", 4);
+    }
+    Car2(String color){
+        this(color, "auto", 4);
+    }
+    Car2(String c, String gt, int d){
+        color = c;
+        gearType = gt;
+        door = d;
+    }
+}
+```
+
+- `this`인스턴스 자신을 가리키는 참조 변수, 인스턴스의 주소가 저장되어 있다.
+
+  모든 인스턴스메서드에 지역변수로 숨겨진 채로 존재한다.
+
+- `this()`, `this(매개변수)` 생성자, 같은 클래스의 다른 생성자를 호출할 때 사용한다.
+
+  - `this`와 `this()`는 비슷하게 생겼을 뿐 완전히 다른 것이다. `this`는 참조변수이고 `this()`는 생성자이다.
+
+### 생성자를 이용한 인스턴스의 복사
+
+```java
+//생성자 Car()
+Car(Car c){
+    this.color = c.color;
+    this.gearType = c.gearType;
+    this.door = c.door;
+}
+```
+
+이 방식 보다
+
+```java
+Car(Car c){
+    this(c.color, c.gearType, c.door);
+}
+```
+
+다른 생성자를 사용하는 것이 바람직하다.
+
+- 인스턴스를 생성할 때는 다음의 2가지 사항을 결정해야한다.
+  1. 클래스 : 어떤 클래스의 인스턴스를 생성할 것인가?
+  2. 생성자 : 선택한 클래스의 어떤 생성자로 인스턴스를 생성할 것인가?
+
+## 5. 변수의 초기화
+
+### 변수의 초기화
+
+멤버변수(클래스 변수와 인스턴스변수)와 배열의 초기화는 선택적이지만, 
+
+지역변수의 초기화는 필수적이다.
