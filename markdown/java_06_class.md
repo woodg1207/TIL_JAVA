@@ -613,4 +613,78 @@ Car(Car c){
 
 멤버변수(클래스 변수와 인스턴스변수)와 배열의 초기화는 선택적이지만, 
 
-지역변수의 초기화는 필수적이다.
+지역변수(method안의 변수)의 초기화는 필수적이다.
+
+- 멤버변수의 초기화
+  1. 명시적 초기화(Explicit Initialization)
+  2. 생성자 (Constructor)
+  3. 초기화 블럭(Initialization Block)
+     - 인스턴스 초기화 블럭 : 인스턴스를 초기화 하는데 사용.
+     - 클래스 초기화 블럭 : 클래스변수를 초기화 하는데 사용.
+
+### 명시적 초기화
+
+```java
+class Car{
+    int door = 4; // 기본형 변수의 초기화
+    Engine e = new Engine(); // 참조형 변수의 초기화
+}
+```
+
+
+
+### 초기화 블럭
+
+인스턴스 변수의 초기화는 주로 생성자를 사용하여 초기화를 진행하는데, 인스턴스 초기화블럭은 모든 생성자에서 공통으로 수행돼야 하는 코드를 넣는데 사용
+
+BlockTest.java
+
+```java
+public class BlockTest {
+    static {
+        System.out.println("static { }"); // 클래스 초기화 블럭
+        // 처음 메모리에 로딩될 때 한번
+    }
+    {
+        System.out.println("{ }"); // 인스턴스 초기화 블럭
+        // 인스턴스가 생성될 때마다 실행됨
+    }
+    public BlockTest(){
+        System.out.println("생성자");
+    }
+    public static void main(String[] args) {
+        System.out.println("bt start ~");
+        BlockTest bt = new BlockTest();
+        
+        System.out.println("bt2 start ~");
+        BlockTest bt2 = new BlockTest();
+
+    }
+}
+/*
+static { }
+bt start ~
+{ }
+생성자
+bt2 start ~
+{ }
+생성자
+
+```
+
+```java
+public class StaticBlockTest {
+    static int[] arr = new int[10];
+    static {
+        for (int i=0; i<arr.length;i++){
+            arr[i] = (int) (Math.random()*10) +1;
+        }
+    }
+    public static void main(String[] args) {
+        for(int i=0; i<arr.length; i++){
+            System.out.printf("arr[%d] : %d \n",i,arr[i]);
+        }
+    }
+}
+```
+
