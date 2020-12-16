@@ -688,3 +688,42 @@ public class StaticBlockTest {
 }
 ```
 
+### 멤버변수의 초기화 시기와 순서
+
+- 클래스변수의 초기화 시점 : 클래스가 처음 로딩될 때 단 한번 초기화 된다.
+  - 인스턴스 변수의 초기화 시점 : 인스턴스가 생성될 때마다 각 인스턴스별로 초기화 된다. 
+
+
+
+- 클래스 변수의 초기화 순서 : 기본값 - 명시적 초기화 - 클래스 초기화 블럭
+- 인스턴스 변수의 초기화 순서 : 기본값 - 명시적 초기화 - 인스턴스 초기화 블럭 - 생성자
+
+```java
+public class DocumentTest {
+    public static void main(String[] args){
+        Document d1 = new Document();
+        Document d5 = new Document();
+        Document d4 = new Document();
+        Document d3 = new Document("java.txt");
+        Document d2 = new Document();
+    }
+}
+class Document{
+    static int cnt = 0;
+    String name;
+    Document(){ //제목이 없는 경우
+        this("제목없음"+ ++cnt);
+    }
+    Document(String name){
+        this.name = name;
+        System.out.println("문서 "+this.name+"가 생성 되었습니다.");
+    }
+}
+/*
+문서 제목없음1가 생성 되었습니다.
+문서 제목없음2가 생성 되었습니다.
+문서 제목없음3가 생성 되었습니다.
+문서 java.txt가 생성 되었습니다.
+문서 제목없음4가 생성 되었습니다.
+```
+
