@@ -53,3 +53,45 @@ class CaptionTv extends Tv {
 }
 ```
 
+
+
+### 클래스간의 관계 : 포함관계
+
+- 포함(Composite)관계
+  - 한 클래스의 멤버변수로 다른 클래스 타입의 참조변수를 선언하는 것을 뜻한다.
+
+```java
+class Circle{
+    int x;
+    int y;
+    int r;
+}
+class Point{
+    int x;
+    int y;
+}
+//// composite을 사용하면
+class Circle{
+    Point c = new Point(); //원점.
+    int r;
+}
+```
+
+
+
+### 클래스간의 관계 결정하기
+
+상속 or 포함
+
+```java
+class Circle{ // 포함
+    Point c = new Point(); //원점.
+    int r;
+}
+class Circle extends Point{ // 상속
+    int r;
+}
+```
+
+- 원(Circle)은 점(Point)이다. `Circle is a Point.` : 상속 관계
+- 원(Circle)은 점(Point)을 가지고 있다. `Circle has a Point.` : 포함 관계
