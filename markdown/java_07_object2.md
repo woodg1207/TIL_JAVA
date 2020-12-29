@@ -225,3 +225,96 @@ class TVCR extends TV, VCR{ // error가 발생한다. 조상은 하나만
 - 모든 클래스의 조상
 - `Object`클래스는 모든 클래스의 상속 계층도에서 최상위 조상 클래스이다.
 
+## 2. 오버라이딩
+
+### 오버라이딩
+
+- 조상 클래스로부터 상속받은 메서드의 내용을 변경하는 것을 오버라이딩이라고 한다. 상속받은 메서드를 그대로 사용하기도 하지만, 자손 클래스 자신에 맞게 변경해야하는 경우가 많다. 
+- 이렇 때 조상의 메서드를 `오버라이딩`이라 한다. 
+
+### 오버라이딩 조건
+
+- 자손 클래스에서 `오버라이딩`하는 메서드는 조상 클래스의 메서드와
+  - 이름이 같아야 한다.
+  - 매개변수가 같아야 한다.
+  - 반환타입이 같아야 한다.
+
+- 선언부가 서로 일치해야 한다는 것을 의미
+  - 다만, 접근 제어자(access modifier) 와 예외(exception)는 제한된 조건 하에서만 다르게 변경할 수 있다.
+
+1. 접근 제어자는 조상 클래스의 메서드보다 **좁은 범위로 변경 할 수 없다**. 
+   - 조상 클래스에서 정의된 메서드의 접근 제어자가 `protected`라면, 이를 오버라이딩하는 자손 클래스의 메서드는 접근 제어자가 `protected`나 `public`이어야 한다. 
+   - 대부분의 경우 같은 범위의 접근 제어자를 사용한다. 
+   - 접근범위를 넓은 것에서 좁은 순으로 나열하면 `public, protected, (default), private`이다. 
+2. 조상 클래스의 메서드보다 많은 수의 예외를 선언할 수 없다.
+
+
+
+- 조상 클래스의 메서드를 자손 클래스에서 오버라이딩할 때
+  1. 접근 제어자를 조상 클래스의 메서드보다 좁은 범위로 변경할 수 없다.
+  2. 예외는 조상 클래스의 메서드보다 많이 선언할 수 없다.
+  3. 인스턴스메서드를 `static`메서드로 또는 그 반대로 변경할 수 없다.
+
+- 조상 클래스에서 정의된 `static`메서드를 자손 클래스에서 똑같은 이름의 `static`메서드로 정의가능한가?
+  - 가능하다.
+  - 이것은 각 클래스의 `static`메서드를 정의하는 것일 뿐 `오버라이딩`이 아니다.
+  - 호출 할때는 `클래스이름.메서드이름()`으로 호출하는것이 바람직하다.
+  - `static`멤버들은 각 클래스에 묶여 있다고 생각해야함.
+
+### 오버로딩 VS 오버라이딩
+
+- 오버로딩 : 기존에 없는 새로운 메서드를 정의함 `new`
+- 오버라이딩 : 상속받은 메서드의 내용을 변경하는 것 `change, modify`
+
+```java
+class Parent {
+    void parentMethod() {}
+}
+class Child extends Parent{
+    void parentMethod() {}//오버라이딩
+    void parentMethod(int i) {} //오버로딩
+    
+   	void childMethod() {}
+    void childMethod(int i) {} // 오버로딩
+    void childMethod() {} // error. 메서드 중복정의
+}
+```
+
+
+
+### super
+
+- `super`는 자손 클래스에서 조상 클래스로부터 상속받은 멤버를 참조하는데 사용되는 참조변수이다.
+- 멤버변수와 지역변수의 이름이 같을 때 `this`를 사용한 것 처럼
+- 상속받은 멤버변수와 자신의 멤버와 이름이 같을 때 `super`를 붙여 구별한다.
+
+- `super`를 사용하지 않고 `this` 를 사용해도 된다. 하지만 조상과 자손이 중복이 된다면 `super`를 사용한다.
+- `this`와 마찬가지로 `static`메서드에서는 사용할 수 없다.  `인스턴스`메서드에서만 사용 가능하다.
+
+```java
+public class SuperTest {
+    public static void main(String[] args) {
+        Child c = new Child();
+        c.method();
+    }
+}
+
+class Parent {
+    int x = 10;
+}
+
+class Child extends Parent {
+    int x = 20;
+    void method() {
+        System.out.println("x = " +x);
+        System.out.println("this.x = " +this.x);
+        System.out.println("super.x = " +super.x);
+
+    }
+}
+/*
+x = 20
+this.x = 20
+super.x = 10
+```
+
