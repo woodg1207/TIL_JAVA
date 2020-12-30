@@ -1,4 +1,4 @@
-public class TVCR extends TV {
+public class TVCR extends TV1 {
     VCR vcr = new VCR(); // VCR클래스를 포함시켜 사용한다.
     int counter = vcr.counter;
 
@@ -16,7 +16,7 @@ public class TVCR extends TV {
     }
 }
 
-class TV {
+class TV1 {
     boolean power;
     int channel;
     void power() {power=!power;}

@@ -331,3 +331,84 @@ super.x = 10
 ### 패키지
 
 - 클래스의 묶음
+
+**클래스가 물리적으로 하나의 클래스파일(.class)인 것과 같이 패키지는 물리적으로 하나의 디렉토리이다.**
+
+- 하나의 소스파일에는 첫 번째 문장으로 단 한 번의 패키지 선언만을 허용한다.
+- 모든 클래스는 반드시 하나의 패키지에 속해야한다. 
+- 패키지는 점(.)을 구분자로 하여 계층구조로 구성할 수 있다.
+- 패키지는 물리적으로 클래스 파일(.class)을 포함하는 하나의 디렉토리이다.
+
+### import
+
+소스파일의 구성은 
+
+1. `package`
+2. `import`
+3. 클래스 선언
+
+```java
+import java.text.SimpleDateFormat;
+import java.util.Date;
+public class ImportTest {
+    public static void main(String[] args) {
+        Date today = new Date();
+
+        SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a");
+
+        System.out.println("오늘 날짜는 "+date.format(today));
+        System.out.println("현재 시간은 "+time.format(today));
+    }
+}
+```
+
+### static import
+
+`import`문을 사용하면 클래스의 패키지명을 생략할 수 있는 것과 같이 `static import`문을 사용하면 `static`멤버를 호출할 때 클래스 이름을 생략할 수 있다.
+
+```java
+import static java.lang.System.out;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+public class ImportTest {
+    public static void main(String[] args) {
+        Date today = new Date();
+
+        SimpleDateFormat date = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat time = new SimpleDateFormat("hh:mm:ss a");
+
+        println("오늘 날짜는 "+date.format(today));
+        println("현재 시간은 "+time.format(today));
+    }
+}
+```
+
+## 4. 제어자(modifier)
+
+1권 344page
+
+### static
+
+- 클래스 변수(static 멤버변수)
+- 멤버변수, 메서드, 초기화 블럭에서 사용 : 클래스에 관계된 것이기 때문에 인스턴스를 생성하지 않고도 사용.
+- static메서드 내에서 인스턴스멤버를 직접 사용할 수 없다.
+
+### final
+
+- 클래스, 메서드, 멤버변수, 지역변수에서 사용
+  - 변수에 사용되면 값을 변경할 수 없는 상수가 되고
+  - 메서드에 사용되면 오버라이딩을 할수 없게 되고
+  - 클래스에서 사용되면 자손클래스를 정의할 수 없게 된다.
+
+### abstract
+
+- 클래스, 메서드에서 사용
+- 미완성에서 사용하거나 클래스에서 인스턴스를 생성 못하도록 할 경우
+
+## 5. 접근 제어자
+
+
+
+
+
