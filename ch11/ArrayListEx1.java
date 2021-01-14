@@ -37,10 +37,13 @@ public class ArrayListEx1 {
             }
         }
         print(list1, list2);
-    }    
+    }   
+    static int cnt = 0; 
     static void print(ArrayList list1, ArrayList list2){
+        System.out.println(cnt);
         System.out.println("list1 : "+list1);
         System.out.println("list2 : "+list2);
         System.out.println();
+        cnt ++;
     }
 }
