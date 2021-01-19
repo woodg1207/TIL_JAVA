@@ -443,5 +443,18 @@ public class ImportTest {
 
 ## 5.다형성
 
- 
+```java
+class Tv{
+    ...
+}
+class CationTv extends Tv{
+    ...
+}
+```
 
+```java
+CaptionTv c = new CaptionTv();
+Tv t = new CaptionTv();
+```
+
+- 둘다 같은 타입의 인스턴스지만 참조변수의 타입에 따라 사용할 수 있는 멤버의 개수가 달라진다.
